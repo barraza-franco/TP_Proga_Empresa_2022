@@ -7,5 +7,14 @@
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
 	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="C:/Users/Elias/.m2/repository/com/zaxxer/HikariCP/3.4.5/HikariCP-3.4.5.jar" sourcepath="C:/Users/Elias/.m2/repository/com/zaxxer/HikariCP/3.4.5/HikariCP-3.4.5-sources.jar">
+		<attributes>
+			<attribute name="maven.pomderived" value="true"/>
+			<attribute name="maven.groupId" value="com.zaxxer"/>
+			<attribute name="maven.artifactId" value="HikariCP"/>
+			<attribute name="maven.version" value="3.4.5"/>
+			<attribute name="maven.scope" value="compile"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
