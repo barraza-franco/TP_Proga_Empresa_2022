@@ -24,7 +24,12 @@ public class Empresa {
 	// Si ya existe el destino se debe generar una excepción.
 	public void agregarDestino(String destino, int km) {
 		Viaje viaje = new Viaje(destino, km);
-		destinos.add(viaje);
+		
+		if (!existeDestino(destino))
+			destinos.add(viaje);
+		else
+			throw new RuntimeException("El destino ya existe");
+		
 	};
 
 	// Los siguientes métodos agregan los tres tipos de transportes a la
@@ -53,6 +58,16 @@ public class Empresa {
 //			Transporte transporte = transportes.get(matricula);
 //			transporte.setViaje(destinos.);
 //		}
+		
+		if (!existeDestino(destino)) 
+			throw new RuntimeException("El destino no existe");
+		
+		if (existeVehiculo(matricula)) {
+			
+		}
+		
+		
+		
 	};
 
 	// Se incorpora un paquete a algún depósito de la empresa.
@@ -102,4 +117,34 @@ public class Empresa {
 	public String obtenerTransporteIgual(String matricula) {
 		return "";
 	};
+	
+	public Boolean existeDestino (String destino)
+	{
+		for (Viaje listaDestinos: destinos)
+		{
+			if(listaDestinos.getDestino().equals(destino)) 
+			{
+				return true;
+				
+			}
+			
+		}
+		
+		return false;
+	}
+	
+	public boolean existeVehiculo(String matricula) {
+		
+		if (transportes.containsKey(matricula))
+			return true;
+		
+		return false;
+
+		
+	}
+	
+	public boolean vehiculoTieneViajeAsignado (String matricula) {
+		
+		transportes.get(matricula).
+	}
 }
