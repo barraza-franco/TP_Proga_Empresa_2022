@@ -1,11 +1,13 @@
 package main;
 
+import classes.Empresa;
+
 public class main {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		double volumen;
-		Empresa e = new Empresa("30112223334","Expreso Libre”, 40000);
+		Empresa e = new Empresa("30112223334","Expreso Libre", 40000);
 		System.out.println(e.toString());
 		e.agregarDestino("Rosario", 100);
 		e.agregarDestino("Buenos Aires", 400);

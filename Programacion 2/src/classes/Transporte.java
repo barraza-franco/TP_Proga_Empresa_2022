@@ -2,38 +2,22 @@ package classes;
 
 public abstract class Transporte {
 	private int id;
-	private int cargaMaxima;
-	private int capacidadMaxima;
-	private boolean equipoDeRefrigeracion;
-	private float costoXKmViaje;
-	private Viaje viaje;
-	private boolean enViaje;
-	private boolean viajeFinalizado;
+	private double cargaMaxima;
+	private double capacidadMaxima;
+	private double costoXKmViaje;
 	
-	
-	public Transporte(int id, int cargaMaxima, int capacidadMaxima, boolean equipoDeRefrigeracion, float costoXKmViaje,
-	                  Viaje viaje, boolean enViaje, boolean viajeFinalizado)
-					 {
-						 this.id= id;
-						 this.cargaMaxima=cargaMaxima;
-						 this.capacidadMaxima=capacidadMaxima;
-						 this.equipoDeRefrigeracion=equipoDeRefrigeracion;
-						 this.costoXKmViaje=costoXKmViaje;
-						 this.viaje=viaje;
-						 this.enViaje=enViaje;
-						 this.viajeFinalizado=viajeFinalizado;
-					 }
-					 
-	
+	Transporte(int id, double cargaMaxima, double capacidadMaxima, double costoXKmViaje) {
+		this.id = id;
+		this.cargaMaxima = cargaMaxima;
+		this.capacidadMaxima = capacidadMaxima;
+		this.costoXKmViaje = costoXKmViaje;
+	}
+
 	abstract float calcularCostoViaje();
+
+	abstract void iniciarViaje();
+
+	abstract void finalizarViaje();
 	
-	private boolean iniciarViaje() {
-		this.enViaje=true;
-		this.viajeFinalizado=false;
-	}
-	
-	private boolean finalizarViaje() {
-		this.enViaje=false;
-		this.viajeFinalizado=true;
-	}
+	abstract void setViaje(Viaje viaje);
 }

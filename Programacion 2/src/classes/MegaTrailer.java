@@ -1,24 +1,43 @@
 package classes;
 
-public class MegaTrailer extends Transporte{
-	
-	private float gastoDeComida;
-	private float seguroDeCarga;
-	private float costoFijoPorViaje;
+public class MegaTrailer extends Transporte {
 
-	public MegaTrailer(int id, int cargaMaxima, int capacidadMaxima, boolean equipoDeRefrigeracion, float costoXKmViaje,
-			Viaje viaje, boolean enViaje, boolean viajeFinalizado, float gastoDeComida, float seguroDeCarga, float costoFijoPorViaje) {
-		super(id, cargaMaxima, capacidadMaxima, equipoDeRefrigeracion, costoXKmViaje, viaje, enViaje, viajeFinalizado);
-		// TODO Auto-generated constructor stub
-		this.gastoDeComida=gastoDeComida;
-		this.seguroDeCarga=seguroDeCarga;
-		this.costoFijoPorViaje=costoFijoPorViaje;
+	private double gastoDeComida;
+	private double seguroDeCarga;
+	private double costoFijoPorViaje;
+	private boolean equipoDeRefrigeracion;
+	private Viaje viaje;
+
+	public MegaTrailer(int id, double cargaMaxima, double capacidadMaxima, boolean equipoDeRefrigeracion, double costoXKmViaje, double gastoDeComida, double seguroDeCarga, double costoFijoPorViaje) {
+		super(id, cargaMaxima, capacidadMaxima, costoXKmViaje);
+		this.gastoDeComida = gastoDeComida;
+		this.seguroDeCarga = seguroDeCarga;
+		this.costoFijoPorViaje = costoFijoPorViaje;
+		this.equipoDeRefrigeracion = equipoDeRefrigeracion;
 	}
 
 	@Override
 	float calcularCostoViaje() {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	@Override
+	void iniciarViaje() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	void finalizarViaje() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	void setViaje(Viaje viaje) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
