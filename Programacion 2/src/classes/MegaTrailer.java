@@ -22,22 +22,6 @@ public class MegaTrailer extends Transporte {
 		return 0;
 	}
 
-	@Override
-	void iniciarViaje() {
-		// TODO Auto-generated method stub
-		
-	}
 
-	@Override
-	void finalizarViaje() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	void setViaje(Viaje viaje) {
-		// TODO Auto-generated method stub
-		
-	}
 
 }

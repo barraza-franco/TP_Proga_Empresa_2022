@@ -54,16 +54,12 @@ public class Empresa {
 	// debe haber sido agregado previamente, con el método agregarDestino).
 	// Si el destino no está registrado, se debe generar una excepción.
 	public void asignarDestino(String matricula, String destino) {
-//		if(destinos.contains(destino)) {
-//			Transporte transporte = transportes.get(matricula);
-//			transporte.setViaje(destinos.);
-//		}
 		
 		if (!existeDestino(destino)) 
 			throw new RuntimeException("El destino no existe");
 		
-		if (existeVehiculo(matricula)) {
-			
+		if (existeVehiculo(matricula) && !vehiculoTieneViajeAsignado(matricula)) {
+			transportes.get(matricula).setViaje(obtenerViaje(destino));
 		}
 		
 		
@@ -122,7 +118,7 @@ public class Empresa {
 	{
 		for (Viaje listaDestinos: destinos)
 		{
-			if(listaDestinos.getDestino().equals(destino)) 
+			if(listaDestinos.getDestino()==destino) 
 			{
 				return true;
 				
@@ -131,6 +127,17 @@ public class Empresa {
 		}
 		
 		return false;
+	}
+	
+	public Viaje obtenerViaje(String destino) {
+
+		for (Viaje busqueda: destinos) {
+			if (busqueda.getDestino()==destino) {
+				return busqueda;
+			}
+		}
+		
+		return null;
 	}
 	
 	public boolean existeVehiculo(String matricula) {
@@ -145,6 +152,7 @@ public class Empresa {
 	
 	public boolean vehiculoTieneViajeAsignado (String matricula) {
 		
-		transportes.get(matricula).
+		return transportes.get(matricula).tieneViajeAsignado();
+		
 	}
 }
