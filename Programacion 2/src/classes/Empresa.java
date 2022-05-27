@@ -1,22 +1,28 @@
 package classes;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
 public class Empresa {
 	private String cuit;
 	private String nombre;
-	private Paquete[] depositoFrio;
-	private Paquete[] depositoComun;
+	private int capDeposito;
+	//private Paquete[] depositoFrio;
+	//private Paquete[] depositoComun;
+	private ArrayList<Paquete> depositoFrio;
+	private ArrayList<Paquete> depositoComun;
 	private HashSet<Viaje> destinos;
 	private HashMap<String, Transporte> transportes;
 
 	// Constructor de la empresa.
-	public Empresa(String cuit, String nombre, int capacidadDeCadaDeposito) {
+	//public Empresa(String cuit, String nombre, int capacidadDeCadaDeposito) {
+	public Empresa(String cuit, String nombre, int capDeposito) {
 		this.cuit = cuit;
 		this.nombre = nombre;
-		this.depositoFrio = new Paquete[capacidadDeCadaDeposito];
-		this.depositoComun = new Paquete[capacidadDeCadaDeposito];
+		this.capDeposito = capDeposito;
+		//this.depositoFrio = new Paquete[capacidadDeCadaDeposito];
+		//this.depositoComun = new Paquete[capacidadDeCadaDeposito];
 	};
 
 	// Incorpora un nuevo destino y su distancia en km.
@@ -58,11 +64,10 @@ public class Empresa {
 		if (!existeDestino(destino)) 
 			throw new RuntimeException("El destino no existe");
 		
-		if (existeVehiculo(matricula) && !vehiculoTieneViajeAsignado(matricula)) {
+		if (existeVehiculo(matricula) && !vehiculoTieneViajeAsignado(matricula) && 
+				         corroborarSiPuedeRealizarViajeXKM(matricula, destino))
+			
 			transportes.get(matricula).setViaje(obtenerViaje(destino));
-		}
-		
-		
 		
 	};
 
@@ -70,6 +75,15 @@ public class Empresa {
 	// Devuelve verdadero si se pudo incorporar, es decir,
 	// si el depósito acorde al paquete tiene suficiente espacio disponible.
 	public boolean incorporarPaquete(String destino, double peso, double volumen, boolean necesitaRefrigeracion) {
+		Paquete paquete = new Paquete(destino, peso, volumen, necesitaRefrigeracion);
+		
+		if (necesitaRefrigeracion && depositoFrio.size()<=capDeposito)
+			depositoFrio.add(paquete);
+		else if (!necesitaRefrigeracion && depositoComun.size()<=capDeposito)
+			depositoComun.add(paquete);
+		else
+			return false;
+		
 		return true;
 	};
 
@@ -80,6 +94,11 @@ public class Empresa {
 	// Devuelve un double con el volumen de los paquetes subidos
 	// al transporte.
 	public double cargarTransporte(String matricula) {
+		Transporte transporte = transportes.get(matricula);
+		if (transporte.tieneViajeAsignado() && !transporte.viaje.isEnViaje()) {
+			
+		}
+		
 		return -1;
 	};
 
@@ -98,7 +117,8 @@ public class Empresa {
 	// ser vuelto a utilizar en otro viaje.
 	// Genera excepción si no está actualmente en viaje.
 	public void finalizarViaje(String matricula) {
-
+		Transporte transporte = transportes.get(matricula);
+		transporte.finalizarViaje();
 	};
 
 	// Obtiene el costo de viaje del transporte identificado por la
@@ -111,7 +131,15 @@ public class Empresa {
 	// Busca si hay algún transporte igual en tipo, destino y carga.
 	// En caso de que no se encuentre ninguno, se debe devolver null.
 	public String obtenerTransporteIgual(String matricula) {
-		return "";
+		
+		Transporte transporte = transportes.get(matricula);
+			
+		for (HashMap.Entry<String, Transporte> entry : transportes.entrySet()) {
+		    if (entry.getValue().equals(transporte))
+		    	return entry.getKey();
+		}
+		
+		return null;
 	};
 	
 	public Boolean existeDestino (String destino)
@@ -140,6 +168,18 @@ public class Empresa {
 		return null;
 	}
 	
+	public int obtenerDistanciaViaje(String destino) {
+
+		for (Viaje busqueda: destinos) {
+			if (busqueda.getDestino()==destino) {
+				return (int) busqueda.getDistanciaEnKm();
+			}
+		}
+		return 0;
+		
+
+	}
+	
 	public boolean existeVehiculo(String matricula) {
 		
 		if (transportes.containsKey(matricula))
@@ -155,4 +195,26 @@ public class Empresa {
 		return transportes.get(matricula).tieneViajeAsignado();
 		
 	}
+	
+	public boolean corroborarSiPuedeRealizarViajeXKM(String matricula, String destino) {
+		
+		//Si es un trailer comun no puede ser un viaje de mas de 500km
+		if ( (transportes.get(matricula) instanceof TrailerComun) && (obtenerDistanciaViaje(destino)<500) ) {
+			return true;
+		//Si es un trailer mega debe ser un viaje de mas de 500km
+		} else if ( (transportes.get(matricula) instanceof MegaTrailer) && (obtenerDistanciaViaje(destino)>500) ) {
+			return true;
+		} else if (transportes.get(matricula) instanceof Flete) {
+			
+			return true;
+		}
+		
+		
+		
+		return false;
+	}
+	
+	
 }
+
+

@@ -16,10 +16,14 @@ public class MegaTrailer extends Transporte {
 		this.equipoDeRefrigeracion = equipoDeRefrigeracion;
 	}
 
+	public boolean isEquipoDeRefrigeracion() {
+		return equipoDeRefrigeracion;
+	}
+
 	@Override
 	float calcularCostoViaje() {
 		// TODO Auto-generated method stub
-		return 0;
+		return (float) ((this.getCostoXKmViaje()*viaje.getDistanciaEnKm()) + gastoDeComida + seguroDeCarga + costoFijoPorViaje);
 	}
 
 

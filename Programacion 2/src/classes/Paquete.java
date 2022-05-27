@@ -1,15 +1,15 @@
 package classes;
 
 public class Paquete {
-	private float volumen;
-	private float peso;
 	private String destino;
+	private double peso;
+	private double volumen;
 	private boolean necesitaFrio;
 	
-	public Paquete(float volumen, float peso, String destino, boolean necesitaFrio) {
-		this.volumen = volumen;
-		this.peso = peso;
+	public Paquete(String destino,double peso, double volumen, boolean necesitaFrio) {
 		this.destino = destino;
+		this.peso = peso;
+		this.volumen = volumen;
 		this.necesitaFrio = necesitaFrio;
 	}
 
@@ -21,11 +21,11 @@ public class Paquete {
 		this.destino = destino;
 	}
 
-	public float getVolumen() {
+	public double getVolumen() {
 		return volumen;
 	}
 
-	public float getPeso() {
+	public double getPeso() {
 		return peso;
 	}
 

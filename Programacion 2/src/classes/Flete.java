@@ -15,7 +15,7 @@ public class Flete extends Transporte {
 	@Override
 	float calcularCostoViaje() {
 		// TODO Auto-generated method stub
-		return 0;
+		return (float) ((this.getCostoXKmViaje()*viaje.getDistanciaEnKm()) + (this.cantAcompaniantes*this.costoFijoPorAcompañante));
 	}
 
 
