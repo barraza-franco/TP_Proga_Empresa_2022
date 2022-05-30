@@ -33,6 +33,7 @@ public class Paquete {
 		return necesitaFrio;
 	}
 	
+	//MODIFICAR
 	@Override
 	public boolean equals (Object vehiculo) {
 		return true;
