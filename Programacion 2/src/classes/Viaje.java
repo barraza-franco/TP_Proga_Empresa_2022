@@ -2,11 +2,11 @@ package classes;
 
 public class Viaje {
 	private String destino;
-	private float distanciaEnKm;
+	private int distanciaEnKm;
 	private boolean enViaje;
 	private boolean viajeFinalizado;
 	
-	public Viaje(String destino, float distanciaEnKm)
+	public Viaje(String destino, int distanciaEnKm)
 	{
 		this.destino=destino;
 		this.distanciaEnKm=distanciaEnKm;
@@ -22,11 +22,11 @@ public class Viaje {
 		this.destino = destino;
 	}
 
-	public float getDistanciaEnKm() {
+	public int getDistanciaEnKm() {
 		return distanciaEnKm;
 	}
 
-	public void setDistanciaEnKm(float distanciaEnKm) {
+	public void setDistanciaEnKm(int distanciaEnKm) {
 		this.distanciaEnKm = distanciaEnKm;
 	}
 

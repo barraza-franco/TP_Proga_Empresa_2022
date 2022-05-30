@@ -8,7 +8,7 @@ public abstract class Transporte {
 	private double capacidadMaxima;
 	private double costoXKmViaje;
 	private boolean equipoDeRefrigeracion;
-	protected Viaje viaje;
+	private Viaje viaje;
 	private HashSet<Paquete> carga;
 	
 	Transporte(int id, double cargaMaxima, double capacidadMaxima, double costoXKmViaje) {
@@ -21,6 +21,10 @@ public abstract class Transporte {
 		this.carga=new HashSet<Paquete>();
 	}
 	
+	public Viaje getViaje() {
+		return viaje;
+	}
+
 	public void cargarTransporte(Paquete paquete) {
 		if(paquete.getPeso()<cargaMaxima && paquete.getVolumen()<capacidadMaxima) {
 			carga.add(paquete);
@@ -29,7 +33,7 @@ public abstract class Transporte {
 		}
 	};
 
-	abstract float calcularCostoViaje();
+	abstract double calcularCostoViaje();
 
 	public void iniciarViaje() 
 	{
@@ -68,6 +72,10 @@ public abstract class Transporte {
 	
 	abstract boolean isEquipoDeRefrigeracion() ;
 	
+	public HashSet<Paquete> getCarga() {
+		return carga;
+	}
+
 	@Override
 	public boolean equals (Object vehiculo) {
 
@@ -83,17 +91,30 @@ public abstract class Transporte {
 		//if(!(vehiculo instanceof Flete))
 		//	return false;
 		
-		if (!(this.getClass() == vehiculo.getClass()))
-			return false;
+//		if (!(this.getClass() == vehiculo.getClass()))
+//			return false;
 		
 		Transporte transporte = (Transporte) vehiculo;
+		System.out.println(this.viaje.getDestino().equals(transporte.viaje.getDestino()));
+		System.out.println(this.getClass().getName().equals(transporte.getClass().getName()));
+
+		boolean cargasIguales=false;
 		
-		return (this.viaje.getDestino()==transporte.viaje.getDestino()) &&
-			   (this.getCargaMaxima() == transporte.getCargaMaxima()) &&
-			   (this.getCapacidadMaxima() == transporte.getCapacidadMaxima()) &&
+		int cont=0;
+		for(Paquete p: carga) {
+			for(Paquete p1: transporte.getCarga()) {
+//				cargasIguales = cargasIguales || p.equals(p1);
+				if(p.equals(p1)) {
+					cont++;
+				}
+			}
+		}
+		cargasIguales = cont==carga.size();
+		
+		return (this.viaje.getDestino().equals(transporte.viaje.getDestino())) &&
+			   (cargasIguales)&&
 			   (this.getClass().getName().equals(transporte.getClass().getName()));
 
-		
 	}
 	
 }

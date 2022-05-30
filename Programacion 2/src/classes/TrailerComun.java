@@ -12,9 +12,9 @@ public class TrailerComun extends Transporte {
 	}
 
 	@Override
-	float calcularCostoViaje() {
+	double calcularCostoViaje() {
 		// TODO Auto-generated method stub
-		return (float) ((this.getCostoXKmViaje()*viaje.getDistanciaEnKm()) + seguroDeCarga );
+		return ((this.getCostoXKmViaje()*this.getViaje().getDistanciaEnKm()) + seguroDeCarga );
 	}
 
 	@Override

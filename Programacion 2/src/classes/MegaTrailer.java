@@ -6,7 +6,6 @@ public class MegaTrailer extends Transporte {
 	private double seguroDeCarga;
 	private double costoFijoPorViaje;
 	private boolean equipoDeRefrigeracion;
-	private Viaje viaje;
 
 	public MegaTrailer(int id, double cargaMaxima, double capacidadMaxima, boolean equipoDeRefrigeracion, double costoXKmViaje, double gastoDeComida, double seguroDeCarga, double costoFijoPorViaje) {
 		super(id, cargaMaxima, capacidadMaxima, costoXKmViaje);
@@ -17,9 +16,9 @@ public class MegaTrailer extends Transporte {
 	}
 
 	@Override
-	float calcularCostoViaje() {
+	double calcularCostoViaje() {
 		// TODO Auto-generated method stub
-		return (float) ((this.getCostoXKmViaje()*viaje.getDistanciaEnKm()) + gastoDeComida + seguroDeCarga + costoFijoPorViaje);
+		return((this.getCostoXKmViaje()*this.getViaje().getDistanciaEnKm()) + gastoDeComida + seguroDeCarga + costoFijoPorViaje);
 	}
 
 	@Override

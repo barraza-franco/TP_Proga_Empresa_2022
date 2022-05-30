@@ -4,7 +4,6 @@ public class Flete extends Transporte {
 
 	private int cantAcompaniantes;
 	private double costoFijoPorAcompañante;
-	private Viaje viaje;
 
 	public Flete(int id, double cargaMaxima, double capacidadMaxima, double costoXKmViaje, int cantAcompaniantes, double costoFijoPorAcompañante) {
 		super(id, cargaMaxima, capacidadMaxima, costoXKmViaje);
@@ -13,9 +12,9 @@ public class Flete extends Transporte {
 	}
 
 	@Override
-	float calcularCostoViaje() {
+	double calcularCostoViaje() {
 		// TODO Auto-generated method stub
-		return (float) ((this.getCostoXKmViaje()*viaje.getDistanciaEnKm()) + (this.cantAcompaniantes*this.costoFijoPorAcompañante));
+		return ((this.getCostoXKmViaje()*this.getViaje().getDistanciaEnKm()) + (this.cantAcompaniantes*this.costoFijoPorAcompañante));
 	}
 
 	@Override

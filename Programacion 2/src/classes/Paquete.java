@@ -32,6 +32,10 @@ public class Paquete {
 	public boolean getNecesitaFrio() {
 		return necesitaFrio;
 	}
-
+	
+	@Override
+	public boolean equals (Object vehiculo) {
+		return true;
+	}
 	
 }
