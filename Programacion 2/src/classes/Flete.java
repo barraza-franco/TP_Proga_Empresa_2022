@@ -18,6 +18,11 @@ public class Flete extends Transporte {
 		return (float) ((this.getCostoXKmViaje()*viaje.getDistanciaEnKm()) + (this.cantAcompaniantes*this.costoFijoPorAcompañante));
 	}
 
+	@Override
+	boolean isEquipoDeRefrigeracion() {
+		return false;
+	}
+
 
 
 }

@@ -17,9 +17,9 @@ public class TrailerComun extends Transporte {
 		return (float) ((this.getCostoXKmViaje()*viaje.getDistanciaEnKm()) + seguroDeCarga );
 	}
 
-	public boolean isEquipoDeRefrigeracion() {
+	@Override
+	boolean isEquipoDeRefrigeracion() {
 		return equipoDeRefrigeracion;
 	}
-	
 
 }

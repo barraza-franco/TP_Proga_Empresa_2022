@@ -1,11 +1,15 @@
 package classes;
 
+import java.util.HashSet;
+
 public abstract class Transporte {
 	private int id;
 	private double cargaMaxima;
 	private double capacidadMaxima;
 	private double costoXKmViaje;
+	private boolean equipoDeRefrigeracion;
 	protected Viaje viaje;
+	private HashSet<Paquete> carga;
 	
 	Transporte(int id, double cargaMaxima, double capacidadMaxima, double costoXKmViaje) {
 		this.id = id;
@@ -13,7 +17,17 @@ public abstract class Transporte {
 		this.capacidadMaxima = capacidadMaxima;
 		this.costoXKmViaje = costoXKmViaje;
 		this.viaje=null;
+		this.equipoDeRefrigeracion=false;
+		this.carga=new HashSet<Paquete>();
 	}
+	
+	public void cargarTransporte(Paquete paquete) {
+		if(paquete.getPeso()<cargaMaxima && paquete.getVolumen()<capacidadMaxima) {
+			carga.add(paquete);
+			cargaMaxima-=paquete.getPeso();
+			capacidadMaxima-=paquete.getVolumen();
+		}
+	};
 
 	abstract float calcularCostoViaje();
 
@@ -51,6 +65,8 @@ public abstract class Transporte {
 	public double getCostoXKmViaje() {
 		return costoXKmViaje;
 	};
+	
+	abstract boolean isEquipoDeRefrigeracion() ;
 	
 	@Override
 	public boolean equals (Object vehiculo) {

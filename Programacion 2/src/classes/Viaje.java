@@ -31,7 +31,9 @@ public class Viaje {
 	}
 
 	public boolean isEnViaje() {
-		return enViaje;
+		if(enViaje==true) {
+			return enViaje;			
+		}return false;
 	}
 
 	public void setEnViaje(boolean enViaje) {
