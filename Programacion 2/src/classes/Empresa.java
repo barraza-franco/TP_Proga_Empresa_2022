@@ -94,7 +94,7 @@ public class Empresa {
 			return depositoComun.add(paquete);
 		}
 		
-		return false;
+		throw new RuntimeException("No hay espacio en depositos");
 	};
 
 	// Dado un ID de un transporte se pide cargarlo con toda la mercadería

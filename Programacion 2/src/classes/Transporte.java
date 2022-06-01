@@ -54,7 +54,6 @@ public abstract class Transporte {
 	}
 
 	public void finalizarViaje() {
-//		viaje.setEnViaje();
 		viaje.setViajeFinalizado();
 	};
 	
