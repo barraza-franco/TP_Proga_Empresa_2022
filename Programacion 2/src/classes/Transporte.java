@@ -93,10 +93,6 @@ public abstract class Transporte {
 			return false;
 		
 		Transporte transporte = (Transporte) vehiculo;
-		System.out.println(this.getClass().getName() + "   Objeto actual");
-		System.out.println(vehiculo.getClass().getName() + "   Objeto Vehiculo");
-		System.out.println(this.viaje.getDestino().equals(transporte.viaje.getDestino()));
-		System.out.println(this.getClass().getName().equals(transporte.getClass().getName()));
 
 		boolean cargasIguales=false;
 		
