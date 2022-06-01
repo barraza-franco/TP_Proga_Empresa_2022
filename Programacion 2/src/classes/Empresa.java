@@ -217,7 +217,7 @@ public class Empresa {
 		return null;
 	};
 
-	public Boolean existeDestino(String destino) {
+	private Boolean existeDestino(String destino) {
 		for (Viaje v : destinos) {
 			System.out.println(v.getDestino());
 			if(v.getDestino().equals(destino)) {
@@ -227,7 +227,7 @@ public class Empresa {
 		return false;
 	}
 
-	public Viaje obtenerViaje(String destino) {
+	private Viaje obtenerViaje(String destino) {
 
 		for (Viaje busqueda : destinos) {
 			if (busqueda.getDestino().equals(destino)) {
@@ -238,7 +238,7 @@ public class Empresa {
 		return null;
 	}
 
-	public int obtenerDistanciaViaje(String destino) {
+	private int obtenerDistanciaViaje(String destino) {
 
 		for (Viaje busqueda : destinos) {
 			if (busqueda.getDestino().equals(destino)) {
@@ -249,7 +249,7 @@ public class Empresa {
 
 	}
 
-	public boolean existeVehiculo(String matricula) {
+	private boolean existeVehiculo(String matricula) {
 
 		if (transportes.containsKey(matricula))
 			return true;
@@ -258,13 +258,13 @@ public class Empresa {
 
 	}
 
-	public boolean vehiculoTieneViajeAsignado(String matricula) {
+	private boolean vehiculoTieneViajeAsignado(String matricula) {
 
 		return transportes.get(matricula).tieneViajeAsignado();
 
 	}
 
-	public boolean corroborarSiPuedeRealizarViajeXKM(String matricula, String destino) {
+	private boolean corroborarSiPuedeRealizarViajeXKM(String matricula, String destino) {
 
 		// Si es un trailer comun no puede ser un viaje de mas de 500km
 		if ((transportes.get(matricula) instanceof TrailerComun) && (obtenerDistanciaViaje(destino) < 500)) {
