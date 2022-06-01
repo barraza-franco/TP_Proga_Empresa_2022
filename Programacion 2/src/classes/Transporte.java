@@ -37,7 +37,12 @@ public abstract class Transporte {
 
 	public void iniciarViaje() 
 	{
-		viaje.setEnViaje(true);
+		if(this.viaje != null && !this.carga.isEmpty())
+			viaje.setEnViaje();
+		else if (this.viaje == null )
+			throw new RuntimeException("El transporte no tiene viaje asignado");
+		else if(this.carga.isEmpty())
+			throw new RuntimeException("El transporte no tiene carga");
 	};
 
 	public double getCargaMaxima() {
@@ -49,12 +54,15 @@ public abstract class Transporte {
 	}
 
 	public void finalizarViaje() {
-		viaje.setEnViaje(false);
-		viaje.setViajeFinalizado(true);
+//		viaje.setEnViaje();
+		viaje.setViajeFinalizado();
 	};
 	
 	public void setViaje(Viaje viaje){
-		this.viaje = viaje;
+		if (this.viaje == null )
+			this.viaje = viaje;
+		else
+			throw new RuntimeException("El transporte ya tiene viaje asignado");
 	};
 	
 	public boolean tieneViajeAsignado() {
@@ -82,19 +90,12 @@ public abstract class Transporte {
 		if (vehiculo == null)
 			return false;
 		
-		//if(!(vehiculo instanceof TrailerComun))
-		//	return false;
-		
-		//if(!(vehiculo instanceof MegaTrailer))
-		//	return false;
-		
-		//if(!(vehiculo instanceof Flete))
-		//	return false;
-		
-//		if (!(this.getClass() == vehiculo.getClass()))
-//			return false;
+		if (!(this.getClass() == vehiculo.getClass()))
+			return false;
 		
 		Transporte transporte = (Transporte) vehiculo;
+		System.out.println(this.getClass().getName() + "   Objeto actual");
+		System.out.println(vehiculo.getClass().getName() + "   Objeto Vehiculo");
 		System.out.println(this.viaje.getDestino().equals(transporte.viaje.getDestino()));
 		System.out.println(this.getClass().getName().equals(transporte.getClass().getName()));
 
@@ -103,7 +104,6 @@ public abstract class Transporte {
 		int cont=0;
 		for(Paquete p: carga) {
 			for(Paquete p1: transporte.getCarga()) {
-//				cargasIguales = cargasIguales || p.equals(p1);
 				if(p.equals(p1)) {
 					cont++;
 				}

@@ -35,8 +35,21 @@ public class Paquete {
 	
 	//MODIFICAR
 	@Override
-	public boolean equals (Object vehiculo) {
-		return true;
+	public boolean equals (Object OtroPaquete) {
+		
+		if (OtroPaquete==null)
+		return false;
+		
+		if (!(this.getClass() == OtroPaquete.getClass()))
+			return false;
+		
+		Paquete p = (Paquete) OtroPaquete;
+		
+		return  ( this.getDestino().equals(p.getDestino()) ) &&
+			     ( this.getPeso() == p.getPeso() ) &&
+			     ( this.getVolumen()== p.getVolumen() ) &&
+	 		     ( this.getNecesitaFrio() == p.getNecesitaFrio() ) ;
+		
 	}
 	
 }

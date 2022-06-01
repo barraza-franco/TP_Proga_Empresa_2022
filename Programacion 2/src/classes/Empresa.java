@@ -10,15 +10,12 @@ public class Empresa {
 	private String nombre;
 	private int capDepositoFrio;
 	private int capDepositoComun;
-	// private Paquete[] depositoFrio;
-	// private Paquete[] depositoComun;
 	private ArrayList<Paquete> depositoFrio;
 	private ArrayList<Paquete> depositoComun;
 	private HashSet<Viaje> destinos;
 	private HashMap<String, Transporte> transportes;
 
 	// Constructor de la empresa.
-	// public Empresa(String cuit, String nombre, int capacidadDeCadaDeposito) {
 	public Empresa(String cuit, String nombre, int capDeposito) {
 		this.cuit = cuit;
 		this.nombre = nombre;
@@ -125,78 +122,53 @@ public class Empresa {
 		double volumenCargado=0;
 		if (transporte.tieneViajeAsignado() && !transporte.getViaje().isEnViaje()) {
 			//Carga si es trailer comun o mega trailer
-			if(transportes.get(matricula) instanceof TrailerComun || transportes.get(matricula) instanceof MegaTrailer) {
+			if(transporte instanceof TrailerComun || transporte instanceof MegaTrailer) {
 				if(depositoFrio.size()>0 && transporte.isEquipoDeRefrigeracion()==true) {
-//					for(Paquete p: depositoFrio) {
-//						if(p.getDestino().equals(transporte.viaje.getDestino())) {
-//							transporte.cargarTransporte(p);
-//							depositoFrio.remove(p);
-//							volumenCargado+=p.getVolumen();
-//						}
-//					}
-					Iterator<Paquete> iterador= depositoFrio.iterator();
-				    while(iterador.hasNext()) {
-				    	Paquete paquete= iterador.next();
-				    	if(paquete.getDestino().equals(transporte.getViaje().getDestino())) {	
-				    		transporte.cargarTransporte(paquete);
-				    		volumenCargado+=paquete.getVolumen();
-				    		iterador.remove();				    		
-				    	}	    	
-				    }
-				}else if(depositoComun.size()>0 && transporte.isEquipoDeRefrigeracion()==false){
-//					for(Paquete p: depositoComun) {
-//						if(p.getDestino().equals(transporte.viaje.getDestino())) {
-//							transporte.cargarTransporte(p);
-//							depositoComun.remove(p);
-//							volumenCargado+=p.getVolumen();
-//						}
-//					}
-					Iterator<Paquete> iterador= depositoComun.iterator();
-				    while(iterador.hasNext()) {
-				    	Paquete paquete= iterador.next();
-				    	if(paquete.getDestino().equals(transporte.getViaje().getDestino())) {	
-				    		transporte.cargarTransporte(paquete);
-				    		volumenCargado+=paquete.getVolumen();
-				    		iterador.remove();				    		
-				    	}	    	
-				    }
+					volumenCargado= cargarTransporte(depositoFrio, transporte);
+					
+				}else if(depositoComun.size()>0 && transporte.isEquipoDeRefrigeracion()==false){	
+					volumenCargado= cargarTransporte(depositoComun, transporte);
 				}
 			}
 			
 			//Carga flete por defecto
 			else if(transportes.get(matricula) instanceof Flete) {	
-				if(depositoComun.size()>0) {
-//					for(Paquete p: depositoComun) {
-//						if(p.getDestino().equals(transporte.viaje.getDestino())) {
-//							transporte.cargarTransporte(p);
-//							System.out.println(p.getDestino());
-//							depositoComun.remove(p);
-//							volumenCargado+=p.getVolumen();
-//						}
-//					}	
-					Iterator<Paquete> iterador= depositoComun.iterator();
-				    while(iterador.hasNext()) {
-				    	Paquete paquete= iterador.next();
-				    	if(paquete.getDestino().equals(transporte.getViaje().getDestino())) {	
-				    		transporte.cargarTransporte(paquete);
-				    		volumenCargado+=paquete.getVolumen();
-				    		iterador.remove();
-				    	}	    	
-				    }
+				if(depositoComun.size()>0) {			
+					volumenCargado= cargarTransporte(depositoComun, transporte);
 				}
 			}
 		}
 
 		return volumenCargado;
 	};
+	
+	private double cargarTransporte(ArrayList<Paquete> deposito, Transporte transporte) {
+		double volumenCargado = 0.0;
+		Iterator<Paquete> iterador = deposito.iterator();
+		while (iterador.hasNext()) {
+			Paquete paquete = iterador.next();
+			if (paquete.getDestino().equals(transporte.getViaje().getDestino())) {
+				transporte.cargarTransporte(paquete);
+				volumenCargado += paquete.getVolumen();
+				iterador.remove();
+			}
+
+		}
+		return volumenCargado;
+
+	}
 
 	// Inicia el viaje del transporte identificado por la
 	// matrícula pasada por parámetro.
 	// En caso de no tener mercadería cargada o de ya estar en viaje
 	// se genera una excepción.
 	public void iniciarViaje(String matricula) {
-		Transporte transporte = transportes.get(matricula);
-		transporte.iniciarViaje();
+		if(transportes.containsKey(matricula)) {
+			Transporte transporte = transportes.get(matricula);
+			transporte.iniciarViaje();
+		}
+		else
+			throw new RuntimeException("El transporte no existe");
 	};
 
 	// Finaliza el viaje del transporte identificado por la
@@ -237,10 +209,7 @@ public class Empresa {
 
 		for (HashMap.Entry<String, Transporte> entry : transportes.entrySet()) {
 			if (entry.getValue().equals(transporte) && !matricula.equals(entry.getKey())) {	
-				System.out.println("EMI");
-				System.out.println(entry.getKey());
-					
-				return entry.getKey();
+						return entry.getKey();
 
 			}
 		}
@@ -310,5 +279,9 @@ public class Empresa {
 
 		return false;
 	}
-
+	
+	@Override
+	public String toString() {
+		return "El nombre de la empresa es: " +nombre+ "   " + "/n Su cuit es: " +  cuit;
+	}
 }

@@ -36,16 +36,26 @@ public class Viaje {
 		}return false;
 	}
 
-	public void setEnViaje(boolean enViaje) {
-		this.enViaje = enViaje;
+	public void setEnViaje() {
+		if(this.enViaje==false && this.viajeFinalizado==false)
+			this.enViaje = true;
+		else 
+			throw new RuntimeException("El viaje ya esta iniciado");
 	}
 
 	public boolean isViajeFinalizado() {
 		return viajeFinalizado;
 	}
 
-	public void setViajeFinalizado(boolean viajeFinalizado) {
-		this.viajeFinalizado = viajeFinalizado;
+	public void setViajeFinalizado() {
+		System.out.println(this.enViaje);
+		System.out.println(this.viajeFinalizado);
+		if(this.viajeFinalizado==false) {
+			this.enViaje=false;
+			this.viajeFinalizado = true;
+		}
+		else
+			throw new RuntimeException("El viaje ya esta finalizado");
 	}
 	
 	
