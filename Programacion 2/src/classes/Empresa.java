@@ -93,9 +93,8 @@ public class Empresa {
 			capDepositoComun-=paquete.getVolumen();
 			return depositoComun.add(paquete);
 		}
-		
-		throw new RuntimeException("No hay espacio en depositos");
-	};
+		return false;
+		};
 
 	// Dado un ID de un transporte se pide cargarlo con toda la mercadería
 	// posible, de acuerdo al destino del transporte. No se debe permitir
