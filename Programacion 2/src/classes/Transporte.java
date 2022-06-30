@@ -26,12 +26,18 @@ public abstract class Transporte {
 	}
 
 	public void cargarTransporte(Paquete paquete) {
+//		if(paquete.getPeso()<cargaMaxima && paquete.getVolumen()<capacidadMaxima) {
+//			carga.add(paquete);
+//			cargaMaxima-=paquete.getPeso();
+//			capacidadMaxima-=paquete.getVolumen();
+//		}
+		
 		if(paquete.getPeso()<cargaMaxima && paquete.getVolumen()<capacidadMaxima) {
-			carga.add(paquete);
-			cargaMaxima-=paquete.getPeso();
-			capacidadMaxima-=paquete.getVolumen();
+			
 		}
 	};
+	
+	
 
 	abstract double calcularCostoViaje();
 

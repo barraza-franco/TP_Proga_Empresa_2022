@@ -8,10 +8,11 @@ import java.util.Iterator;
 public class Empresa {
 	private String cuit;
 	private String nombre;
-	private int capDepositoFrio;
-	private int capDepositoComun;
-	private ArrayList<Paquete> depositoFrio;
-	private ArrayList<Paquete> depositoComun;
+	//private int capDepositoFrio;
+	//private int capDepositoComun;
+	//private ArrayList<Paquete> depositoFrio;
+	//private ArrayList<Paquete> depositoComun;
+	private ArrayList<Deposito> depositos;
 	private HashSet<Viaje> destinos;
 	private HashMap<String, Transporte> transportes;
 
@@ -19,11 +20,14 @@ public class Empresa {
 	public Empresa(String cuit, String nombre, int capDeposito) {
 		this.cuit = cuit;
 		this.nombre = nombre;
-		this.capDepositoFrio = capDeposito;
-		this.capDepositoComun = capDeposito;
+		Deposito depositoFrio = new Deposito(capDeposito, true);
+		Deposito depositoComun = new Deposito(capDeposito, false);
+		this.depositos.add(depositoFrio);
+		this.depositos.add(depositoComun);
+		//this.capDepositoComun = capDeposito;
 		this.destinos = new HashSet<Viaje>();
-		this.depositoFrio = new ArrayList<Paquete>();
-		this.depositoComun = new ArrayList<Paquete>();
+		//this.depositoFrio = new ArrayList<Paquete>();
+		//this.depositoComun = new ArrayList<Paquete>();
 		this.transportes = new HashMap<String, Transporte>();
 	};
 
@@ -85,13 +89,11 @@ public class Empresa {
 	public boolean incorporarPaquete(String destino, double peso, double volumen, boolean necesitaRefrigeracion) {
 		Paquete paquete = new Paquete(destino, peso, volumen, necesitaRefrigeracion);
 
-		if (necesitaRefrigeracion && paquete.getVolumen()<=capDepositoFrio) {
-			capDepositoFrio-=paquete.getVolumen();
-			return depositoFrio.add(paquete);
+		if (necesitaRefrigeracion) {
+			depositos.get(0).agregarPaquete(paquete);
 		}
-		else if (!necesitaRefrigeracion && paquete.getVolumen() <= capDepositoComun) {	
-			capDepositoComun-=paquete.getVolumen();
-			return depositoComun.add(paquete);
+		else if (!necesitaRefrigeracion) {	
+			depositos.get(1).agregarPaquete(paquete);
 		}
 		return false;
 		};
@@ -103,22 +105,30 @@ public class Empresa {
 	// Devuelve un double con el volumen de los paquetes subidos
 	// al transporte.
 	public double cargarTransporte(String matricula) {
-		Transporte transporte;
+		Transporte transporte = transportes.get(matricula);
 		
-		if(transportes.get(matricula) instanceof TrailerComun) {
-			transporte = (TrailerComun) transportes.get(matricula);			
-		}
-		
-		else if(transportes.get(matricula) instanceof MegaTrailer) {
-			transporte = (MegaTrailer) transportes.get(matricula);
-		}
-		
-		else {
-			transporte = (Flete) transportes.get(matricula);
-		}
-			
+//		if(transportes.get(matricula) instanceof TrailerComun) {
+//			transporte = (TrailerComun) transportes.get(matricula);			
+//		}
+//		
+//		else if(transportes.get(matricula) instanceof MegaTrailer) {
+//			transporte = (MegaTrailer) transportes.get(matricula);
+//		}
+//		
+//		else {
+//			transporte = (Flete) transportes.get(matricula);
+//		}
 			
 		double volumenCargado=0;
+		
+		if(transporte.tieneViajeAsignado() && !transporte.getViaje().isEnViaje()) {
+			for(Deposito d: depositos) {
+				cargarTransporte(d.getDepositoPaquetes(),transporte);
+				
+			}
+		}
+		
+		
 		if (transporte.tieneViajeAsignado() && !transporte.getViaje().isEnViaje()) {
 			//Carga si es trailer comun o mega trailer
 			if(transporte instanceof TrailerComun || transporte instanceof MegaTrailer) {
@@ -141,21 +151,21 @@ public class Empresa {
 		return volumenCargado;
 	};
 	
-	private double cargarTransporte(ArrayList<Paquete> deposito, Transporte transporte) {
-		double volumenCargado = 0.0;
-		Iterator<Paquete> iterador = deposito.iterator();
-		while (iterador.hasNext()) {
-			Paquete paquete = iterador.next();
-			if (paquete.getDestino().equals(transporte.getViaje().getDestino())) {
-				transporte.cargarTransporte(paquete);
-				volumenCargado += paquete.getVolumen();
-				iterador.remove();
-			}
-
-		}
-		return volumenCargado;
-
-	}
+//	private double cargarTransporte(ArrayList<Paquete> deposito, Transporte transporte) {
+//		double volumenCargado = 0.0;
+//		Iterator<Paquete> iterador = deposito.iterator();
+//		while (iterador.hasNext()) {
+//			Paquete paquete = iterador.next();
+//			if (paquete.getDestino().equals(transporte.getViaje().getDestino())) {
+//				transporte.cargarTransporte(paquete);
+//				volumenCargado += paquete.getVolumen();
+//				iterador.remove();
+//			}
+//
+//		}
+//		return volumenCargado;
+//
+//	}
 
 	// Inicia el viaje del transporte identificado por la
 	// matrícula pasada por parámetro.
