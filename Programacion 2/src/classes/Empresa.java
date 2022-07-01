@@ -24,6 +24,10 @@ public class Empresa {
 		this.destinos = new HashSet<Viaje>();
 		this.transportes = new HashMap<String, Transporte>();
 	};
+	
+	public Transporte getTransporte(String matricula) {
+		return transportes.get(matricula);
+	}
 
 	// Incorpora un nuevo destino y su distancia en km.
 	// Es requisito previo, para poder asignar un destino a un transporte.
@@ -190,7 +194,7 @@ public class Empresa {
 
 		for (Viaje busqueda : destinos) {
 			if (busqueda.getDestino().equals(destino)) {
-				return (int) busqueda.getDistanciaEnKm();
+				return busqueda.getDistanciaEnKm();
 			}
 		}
 		return 0;
@@ -213,19 +217,9 @@ public class Empresa {
 	}
 
 	private boolean corroborarSiPuedeRealizarViajeXKM(String matricula, String destino) {
+		
+		return (transportes.get(matricula).puedeRealizarViaje(obtenerDistanciaViaje(destino)));
 
-		// Si es un trailer comun no puede ser un viaje de mas de 500km
-		if ((transportes.get(matricula) instanceof TrailerComun) && (obtenerDistanciaViaje(destino) < 500)) {
-			return true;
-			// Si es un trailer mega debe ser un viaje de mas de 500km
-		} else if ((transportes.get(matricula) instanceof MegaTrailer) && (obtenerDistanciaViaje(destino) > 500)) {
-			return true;
-		} else if (transportes.get(matricula) instanceof Flete) {
-
-			return true;
-		}
-
-		return false;
 	}
 
 	@Override

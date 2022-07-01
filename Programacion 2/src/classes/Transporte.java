@@ -29,13 +29,13 @@ public abstract class Transporte {
 
 	public boolean sePuedeCargarPaquete(Paquete paquete) {
 		boolean hayLugar = paquete.getPeso() < cargaMaxima && paquete.getVolumen() < capacidadMaxima;
-		boolean condicionFrio = (equipoDeRefrigeracion && paquete.getNecesitaFrio())
-				|| (!equipoDeRefrigeracion && !paquete.getNecesitaFrio());
+		boolean condicionFrio = (isEquipoDeRefrigeracion() && paquete.getNecesitaFrio())
+				|| (!isEquipoDeRefrigeracion() && !paquete.getNecesitaFrio());
 		boolean coincideDestino = paquete.getDestino().equals(getViaje().getDestino());
-
+		
 		return (hayLugar && condicionFrio && coincideDestino);
 	}
-
+	
 	public double cargarTransporte(Paquete paquete) {
 		if (sePuedeCargarPaquete(paquete)) {
 			return cargarPaquete(paquete);
@@ -43,6 +43,8 @@ public abstract class Transporte {
 			return 0;
 		}
 	};
+	
+	abstract boolean puedeRealizarViaje(int km);
 
 	private double cargarPaquete(Paquete paquete) {
 		carga.add(paquete);
@@ -94,7 +96,7 @@ public abstract class Transporte {
 		return costoXKmViaje;
 	};
 
-	abstract boolean isEquipoDeRefrigeracion();
+	public abstract boolean isEquipoDeRefrigeracion();
 
 	public HashSet<Paquete> getCarga() {
 		return carga;

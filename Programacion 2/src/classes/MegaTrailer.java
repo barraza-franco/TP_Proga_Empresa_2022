@@ -23,9 +23,12 @@ public class MegaTrailer extends Transporte {
 				+ costoFijoPorViaje);
 	}
 
-	@Override
-	boolean isEquipoDeRefrigeracion() {
+	public boolean isEquipoDeRefrigeracion() {
 		return equipoDeRefrigeracion;
 	}
 
+	@Override
+	boolean puedeRealizarViaje(int km) {
+		return km>500;
+	}
 }
