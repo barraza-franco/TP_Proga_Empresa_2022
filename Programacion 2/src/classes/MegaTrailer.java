@@ -7,7 +7,8 @@ public class MegaTrailer extends Transporte {
 	private double costoFijoPorViaje;
 	private boolean equipoDeRefrigeracion;
 
-	public MegaTrailer(int id, double cargaMaxima, double capacidadMaxima, boolean equipoDeRefrigeracion, double costoXKmViaje, double gastoDeComida, double seguroDeCarga, double costoFijoPorViaje) {
+	public MegaTrailer(int id, double cargaMaxima, double capacidadMaxima, boolean equipoDeRefrigeracion,
+			double costoXKmViaje, double gastoDeComida, double seguroDeCarga, double costoFijoPorViaje) {
 		super(id, cargaMaxima, capacidadMaxima, costoXKmViaje);
 		this.gastoDeComida = gastoDeComida;
 		this.seguroDeCarga = seguroDeCarga;
@@ -18,13 +19,13 @@ public class MegaTrailer extends Transporte {
 	@Override
 	double calcularCostoViaje() {
 		// TODO Auto-generated method stub
-		return((this.getCostoXKmViaje()*this.getViaje().getDistanciaEnKm()) + gastoDeComida + seguroDeCarga + costoFijoPorViaje);
+		return ((this.getCostoXKmViaje() * this.getViaje().getDistanciaEnKm()) + gastoDeComida + seguroDeCarga
+				+ costoFijoPorViaje);
 	}
 
 	@Override
 	boolean isEquipoDeRefrigeracion() {
 		return equipoDeRefrigeracion;
 	}
-
 
 }

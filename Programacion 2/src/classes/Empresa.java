@@ -8,12 +8,7 @@ import java.util.Iterator;
 public class Empresa {
 	private String cuit;
 	private String nombre;
-	//private int capDepositoFrio;
-	//private int capDepositoComun;
-	//private ArrayList<Paquete> depositoFrio;
-	//private ArrayList<Paquete> depositoComun;
 	private ArrayList<Deposito> depositos;
-	
 	private HashSet<Viaje> destinos;
 	private HashMap<String, Transporte> transportes;
 
@@ -26,10 +21,7 @@ public class Empresa {
 		this.depositos = new ArrayList<Deposito>();
 		this.depositos.add(depositoFrio);
 		this.depositos.add(depositoComun);
-		//this.capDepositoComun = capDeposito;
 		this.destinos = new HashSet<Viaje>();
-		//this.depositoFrio = new ArrayList<Paquete>();
-		//this.depositoComun = new ArrayList<Paquete>();
 		this.transportes = new HashMap<String, Transporte>();
 	};
 
@@ -93,12 +85,11 @@ public class Empresa {
 
 		if (necesitaRefrigeracion) {
 			return depositos.get(0).agregarPaquete(paquete);
-		}
-		else {	
+		} else {
 			return depositos.get(1).agregarPaquete(paquete);
 		}
 
-		};
+	};
 
 	// Dado un ID de un transporte se pide cargarlo con toda la mercadería
 	// posible, de acuerdo al destino del transporte. No se debe permitir
@@ -108,39 +99,36 @@ public class Empresa {
 	// al transporte.
 	public double cargarTransporte(String matricula) {
 		Transporte transporte = transportes.get(matricula);
-			
-		double volumenCargado=0;
-		
-		if(transporte.tieneViajeAsignado() && !transporte.getViaje().isEnViaje()) {
-			
-			for(Deposito d: depositos) {
+
+		double volumenCargado = 0;
+
+		if (transporte.tieneViajeAsignado() && !transporte.getViaje().isEnViaje()) {
+
+			for (Deposito d : depositos) {
 				Iterator<Paquete> iterador = d.getDepositoPaquetes().iterator();
 				while (iterador.hasNext()) {
 					Paquete paquete = iterador.next();
 					if (transporte.sePuedeCargarPaquete(paquete)) {
 						volumenCargado += transporte.cargarTransporte(paquete);
-						System.out.println(matricula);
 						d.quitarPaquete(paquete);
 						iterador.remove();
 					}
-					}
 				}
 			}
+		}
 
 		return volumenCargado;
 	};
-	
 
 	// Inicia el viaje del transporte identificado por la
 	// matrícula pasada por parámetro.
 	// En caso de no tener mercadería cargada o de ya estar en viaje
 	// se genera una excepción.
 	public void iniciarViaje(String matricula) {
-		if(transportes.containsKey(matricula)) {
+		if (transportes.containsKey(matricula)) {
 			Transporte transporte = transportes.get(matricula);
 			transporte.iniciarViaje();
-		}
-		else
+		} else
 			throw new RuntimeException("El transporte no existe");
 	};
 
@@ -165,24 +153,11 @@ public class Empresa {
 	// En caso de que no se encuentre ninguno, se debe devolver null.
 	public String obtenerTransporteIgual(String matricula) {
 
-//		Transporte transporte = transportes.get(matricula);
-		Transporte transporte;
-		
-		if(transportes.get(matricula) instanceof TrailerComun) {
-			transporte = (TrailerComun) transportes.get(matricula);			
-		}
-		
-		else if(transportes.get(matricula) instanceof MegaTrailer) {
-			transporte = (MegaTrailer) transportes.get(matricula);
-		}
-		
-		else {
-			transporte = (Flete) transportes.get(matricula);
-		}
+		Transporte transporte = transportes.get(matricula);
 
 		for (HashMap.Entry<String, Transporte> entry : transportes.entrySet()) {
-			if (entry.getValue().equals(transporte) && !matricula.equals(entry.getKey())) {	
-						return entry.getKey();
+			if (entry.getValue().equals(transporte) && !matricula.equals(entry.getKey())) {
+				return entry.getKey();
 
 			}
 		}
@@ -192,10 +167,10 @@ public class Empresa {
 
 	private Boolean existeDestino(String destino) {
 		for (Viaje v : destinos) {
-			System.out.println(v.getDestino());
-			if(v.getDestino().equals(destino)) {
+			if (v.getDestino().equals(destino)) {
 				return true;
-			}; 
+			}
+			;
 		}
 		return false;
 	}
@@ -252,9 +227,9 @@ public class Empresa {
 
 		return false;
 	}
-	
+
 	@Override
 	public String toString() {
-		return "El nombre de la empresa es: " +nombre+ "   " + "/n Su cuit es: " +  cuit;
+		return "El nombre de la empresa es: " + nombre + "   " + "/n Su cuit es: " + cuit;
 	}
 }

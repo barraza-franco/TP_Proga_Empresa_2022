@@ -5,13 +5,12 @@ public class Viaje {
 	private int distanciaEnKm;
 	private boolean enViaje;
 	private boolean viajeFinalizado;
-	
-	public Viaje(String destino, int distanciaEnKm)
-	{
-		this.destino=destino;
-		this.distanciaEnKm=distanciaEnKm;
-		this.enViaje=false;
-		this.viajeFinalizado=false;
+
+	public Viaje(String destino, int distanciaEnKm) {
+		this.destino = destino;
+		this.distanciaEnKm = distanciaEnKm;
+		this.enViaje = false;
+		this.viajeFinalizado = false;
 	}
 
 	public String getDestino() {
@@ -31,15 +30,16 @@ public class Viaje {
 	}
 
 	public boolean isEnViaje() {
-		if(enViaje==true) {
-			return enViaje;			
-		}return false;
+		if (enViaje == true) {
+			return enViaje;
+		}
+		return false;
 	}
 
 	public void setEnViaje() {
-		if(this.enViaje==false && this.viajeFinalizado==false)
+		if (this.enViaje == false && this.viajeFinalizado == false)
 			this.enViaje = true;
-		else 
+		else
 			throw new RuntimeException("El viaje ya esta iniciado");
 	}
 
@@ -48,16 +48,11 @@ public class Viaje {
 	}
 
 	public void setViajeFinalizado() {
-		System.out.println(this.enViaje);
-		System.out.println(this.viajeFinalizado);
-		if(this.viajeFinalizado==false) {
-			this.enViaje=false;
+		if (this.viajeFinalizado == false) {
+			this.enViaje = false;
 			this.viajeFinalizado = true;
-		}
-		else
+		} else
 			throw new RuntimeException("El viaje ya esta finalizado");
 	}
-	
-	
-	
+
 }
