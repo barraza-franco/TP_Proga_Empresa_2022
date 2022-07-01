@@ -13,18 +13,20 @@ public class Deposito {
 		depositoPaquetes = new ArrayList<Paquete>();
 	}
 	
-	void agregarPaquete(Paquete paquete){
+	boolean agregarPaquete(Paquete paquete){
 		if(paquete.getVolumen()<=capDeposito) {
 			capDeposito-=paquete.getVolumen();
 			depositoPaquetes.add(paquete);
+			return true;
 		}
+		return false;
 	}
 	
-	Paquete getPaquete(){
-		return depositoPaquetes.remove(0);
+	void quitarPaquete(Paquete paquete){
+		capDeposito+=paquete.getVolumen();
 	}
 	
-	ArrayList getDepositoPaquetes(){
+	ArrayList<Paquete> getDepositoPaquetes(){
 		return depositoPaquetes;
 	}
 }

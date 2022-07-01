@@ -1,6 +1,8 @@
 package classes;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 
 public abstract class Transporte {
 	private int id;
@@ -25,19 +27,62 @@ public abstract class Transporte {
 		return viaje;
 	}
 
-	public void cargarTransporte(Paquete paquete) {
-//		if(paquete.getPeso()<cargaMaxima && paquete.getVolumen()<capacidadMaxima) {
-//			carga.add(paquete);
-//			cargaMaxima-=paquete.getPeso();
-//			capacidadMaxima-=paquete.getVolumen();
+//	public double cargarTransporte(ArrayList<Paquete> deposito) {
+//		double volumenCargado = 0.0;
+//		Iterator<Paquete> iterador = deposito.iterator();
+//		while (iterador.hasNext()) {
+//			Paquete paquete = iterador.next();
+//			if (paquete.getDestino().equals(getViaje().getDestino())) {
+//				cargarTransporte(paquete);
+//				volumenCargado += paquete.getVolumen();
+//				iterador.remove();
+//			}
+//
 //		}
-		
-		if(paquete.getPeso()<cargaMaxima && paquete.getVolumen()<capacidadMaxima) {
-			
-		}
+//		return volumenCargado;
+//
+//	}
+	public boolean sePuedeCargarPaquete(Paquete paquete) {
+		boolean hayLugar = paquete.getPeso()<cargaMaxima && paquete.getVolumen()<capacidadMaxima;
+		boolean condicionFrio = (equipoDeRefrigeracion && paquete.getNecesitaFrio()) || (!equipoDeRefrigeracion && !paquete.getNecesitaFrio());
+		boolean coincideDestino = paquete.getDestino().equals(getViaje().getDestino());
+
+		return (hayLugar && condicionFrio && coincideDestino);
+	}
+	public double cargarTransporte(Paquete paquete) {
+			if(sePuedeCargarPaquete(paquete)) {
+				return cargarPaquete(paquete);	
+			}
+				else {
+					return 0;
+			}
 	};
 	
+//	boolean condicionFrio(Paquete paq) {
+//		if(paq.getNecesitaFrio() && equipoDeRefrigeracion) {
+//			return false;
+//		}
+//		if(paq.getNecesitaFrio() && equipoDeRefrigeracion==false) {
+//			return false;
+//		}
+//		if(paq.getNecesitaFrio()==false && equipoDeRefrigeracion==true) {
+//			return true;
+//		}
+//		if(paq.getNecesitaFrio()==false && equipoDeRefrigeracion==false) {
+//			return true;
+//		}
+//		else {
+//			return true;
+//		}
+//		
+//	}
 	
+	private double cargarPaquete(Paquete paquete) {
+		carga.add(paquete);
+		cargaMaxima-=paquete.getPeso();
+		capacidadMaxima-=paquete.getVolumen();
+		return paquete.getVolumen();
+	}
 
 	abstract double calcularCostoViaje();
 
@@ -116,6 +161,14 @@ public abstract class Transporte {
 			   (cargasIguales)&&
 			   (this.getClass().getName().equals(transporte.getClass().getName()));
 
+	}
+
+	public void setCargaMaxima(double cargaMaxima) {
+		this.cargaMaxima = cargaMaxima;
+	}
+
+	public void setCapacidadMaxima(double capacidadMaxima) {
+		this.capacidadMaxima = capacidadMaxima;
 	}
 	
 }

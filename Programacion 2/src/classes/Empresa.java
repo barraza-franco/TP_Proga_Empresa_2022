@@ -13,6 +13,7 @@ public class Empresa {
 	//private ArrayList<Paquete> depositoFrio;
 	//private ArrayList<Paquete> depositoComun;
 	private ArrayList<Deposito> depositos;
+	
 	private HashSet<Viaje> destinos;
 	private HashMap<String, Transporte> transportes;
 
@@ -22,6 +23,7 @@ public class Empresa {
 		this.nombre = nombre;
 		Deposito depositoFrio = new Deposito(capDeposito, true);
 		Deposito depositoComun = new Deposito(capDeposito, false);
+		this.depositos = new ArrayList<Deposito>();
 		this.depositos.add(depositoFrio);
 		this.depositos.add(depositoComun);
 		//this.capDepositoComun = capDeposito;
@@ -90,12 +92,12 @@ public class Empresa {
 		Paquete paquete = new Paquete(destino, peso, volumen, necesitaRefrigeracion);
 
 		if (necesitaRefrigeracion) {
-			depositos.get(0).agregarPaquete(paquete);
+			return depositos.get(0).agregarPaquete(paquete);
 		}
-		else if (!necesitaRefrigeracion) {	
-			depositos.get(1).agregarPaquete(paquete);
+		else {	
+			return depositos.get(1).agregarPaquete(paquete);
 		}
-		return false;
+
 		};
 
 	// Dado un ID de un transporte se pide cargarlo con toda la mercadería
@@ -106,66 +108,28 @@ public class Empresa {
 	// al transporte.
 	public double cargarTransporte(String matricula) {
 		Transporte transporte = transportes.get(matricula);
-		
-//		if(transportes.get(matricula) instanceof TrailerComun) {
-//			transporte = (TrailerComun) transportes.get(matricula);			
-//		}
-//		
-//		else if(transportes.get(matricula) instanceof MegaTrailer) {
-//			transporte = (MegaTrailer) transportes.get(matricula);
-//		}
-//		
-//		else {
-//			transporte = (Flete) transportes.get(matricula);
-//		}
 			
 		double volumenCargado=0;
 		
 		if(transporte.tieneViajeAsignado() && !transporte.getViaje().isEnViaje()) {
-			for(Deposito d: depositos) {
-				cargarTransporte(d.getDepositoPaquetes(),transporte);
-				
-			}
-		}
-		
-		
-		if (transporte.tieneViajeAsignado() && !transporte.getViaje().isEnViaje()) {
-			//Carga si es trailer comun o mega trailer
-			if(transporte instanceof TrailerComun || transporte instanceof MegaTrailer) {
-				if(depositoFrio.size()>0 && transporte.isEquipoDeRefrigeracion()==true) {
-					volumenCargado= cargarTransporte(depositoFrio, transporte);
-					
-				}else if(depositoComun.size()>0 && transporte.isEquipoDeRefrigeracion()==false){	
-					volumenCargado= cargarTransporte(depositoComun, transporte);
-				}
-			}
 			
-			//Carga flete por defecto
-			else if(transportes.get(matricula) instanceof Flete) {	
-				if(depositoComun.size()>0) {			
-					volumenCargado= cargarTransporte(depositoComun, transporte);
+			for(Deposito d: depositos) {
+				Iterator<Paquete> iterador = d.getDepositoPaquetes().iterator();
+				while (iterador.hasNext()) {
+					Paquete paquete = iterador.next();
+					if (transporte.sePuedeCargarPaquete(paquete)) {
+						volumenCargado += transporte.cargarTransporte(paquete);
+						System.out.println(matricula);
+						d.quitarPaquete(paquete);
+						iterador.remove();
+					}
+					}
 				}
 			}
-		}
 
 		return volumenCargado;
 	};
 	
-//	private double cargarTransporte(ArrayList<Paquete> deposito, Transporte transporte) {
-//		double volumenCargado = 0.0;
-//		Iterator<Paquete> iterador = deposito.iterator();
-//		while (iterador.hasNext()) {
-//			Paquete paquete = iterador.next();
-//			if (paquete.getDestino().equals(transporte.getViaje().getDestino())) {
-//				transporte.cargarTransporte(paquete);
-//				volumenCargado += paquete.getVolumen();
-//				iterador.remove();
-//			}
-//
-//		}
-//		return volumenCargado;
-//
-//	}
 
 	// Inicia el viaje del transporte identificado por la
 	// matrícula pasada por parámetro.
